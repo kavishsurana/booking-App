@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const User = require('./models/User');
 const { default: mongoose } = require('mongoose');
@@ -12,6 +13,7 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = 'yourSecretKey'
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
     credentials: true,
@@ -64,6 +66,25 @@ app.post('/login', async (req,res) => {
         }
     }else{
         res.json('not found')
+    }
+})
+
+app.get('/profile' , (req,res) => {
+    const {token} = req.cookies
+    console.log("API.get/profile")
+    console.log(token)
+    if(token){
+        jwt.verify(token, jwtSecret, async (err, userData) => {
+            if(err) throw err;
+            console.log("Decoded Token: ", userData);
+            const {name,email,_id} = await User.findById(userData.id)
+            console.log("verify token" + userDoc)
+            console.log(name,email,_id)
+            res.json(name,email,_id)
+        })
+    }else{
+        console.log("no token")
+        res.json(null)
     }
 })
 
