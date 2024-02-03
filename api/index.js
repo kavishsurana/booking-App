@@ -77,10 +77,13 @@ app.get('/profile' , (req,res) => {
         jwt.verify(token, jwtSecret, async (err, userData) => {
             if(err) throw err;
             console.log("Decoded Token: ", userData);
-            const {name,email,_id} = await User.findById(userData.id)
+            console.log(userData.id)
+            const userDoc = await User.findById(userData.id)
+            console.log("-----------------------------")
             console.log("verify token" + userDoc)
-            console.log(name,email,_id)
-            res.json(name,email,_id)
+            console.log("-----------------------------")
+            console.log(userDoc)
+            res.json(userDoc)
         })
     }else{
         console.log("no token")
