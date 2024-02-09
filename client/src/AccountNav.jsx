@@ -1,46 +1,30 @@
-import  {useContext} from 'react'
-import { UserContext } from '../UserContext'
-import { Navigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
-import PlacesPage from './PlacesPage'
+import { Link, useLocation } from 'react-router-dom'
 
 
 
-export default function AccountPage(){
-    const {ready,user} = useContext(UserContext)
-    let {subpage} = useParams()
+export default function AccountNav(){
 
+    const {pathname} = useLocation();
+    let subpage = pathname.split('/')?.[2];
     if(subpage === undefined){
         subpage = 'profile';
     }
 
 
-    if(!ready){
-        return <div>Loading...</div>
-    }       
-
-    if(ready && !user){
-        <Navigate to='/login' />    
-    }
-
-    
-
     function linkClasses(type=null){
         let classes = 'py-2 px-6 flex inline-flex gap-2';
-        if(type === subpage || (type === 'profile' && subpage === undefined)){
+        if(type === subpage ){
             classes += ' bg-primary text-white rounded-full'
         }else{
             classes += ' bg-gray-300 rounded-full'
         }
-
+    
         return classes;
     }
 
 
-
     return (
-        <div>
+        <>
             <nav className='w-full flex justify-center mt-8 gap-2 mb-8'>
                 <Link className={linkClasses('profile')} to={'/account'}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -59,17 +43,6 @@ export default function AccountPage(){
 
                 My accommodations</Link>
             </nav>
-            {subpage === 'profile' && (
-                <div className='text-center max-w-lg mx-auto'>
-                    Logged in as {user.name} ({user.email}) <br />
-                    <button className='primary max-w-xs mt-2'>Logout</button>
-                </div>
-            )}
-            {subpage === 'places' && (
-                <PlacesPage />
-            )}
-
-        </div>
-
+        </>
     )
 }

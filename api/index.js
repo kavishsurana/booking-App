@@ -8,6 +8,7 @@ const imageDownloader = require('image-downloader');
 const multer = require('multer');
 const bcrypt = require('bcryptjs');
 const User = require('./models/User');
+const Place = require('./models/Place');
 const { default: mongoose } = require('mongoose');
 dotenv.config();
 const app = express();
@@ -122,6 +123,30 @@ app.post('/upload', photosMiddleware.array('photos', 100) , (req,res) => {
         uploadedFilea.push(newPath.replace('uploads\\', ''))
     }
     res.json(uploadedFilea)
+})
+
+
+app.post('/places' , async (req,res) => {
+    const {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
+    const {token} = req.cookies
+    jwt.verify(token, jwtSecret, async (err, userData) => {
+        console.log(userData.id)
+        if(err) throw err;
+        const placeDoc = await Place.create({
+            owner: userData.id,
+            title,
+            address,
+            addedPhotos,
+            description,
+            perks,
+            extraInfo,
+            checkIn,
+            checkOut,
+            maxGuests
+        })
+        console.log(placeDoc)
+        res.json(placeDoc)
+    })
 })
 
 
