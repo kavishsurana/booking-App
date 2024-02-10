@@ -46,6 +46,7 @@ export default function PhotosUploader({addedPhotos, setAddedPhotos}){
                             console.log("link: ", link),
                             <div key={link.id} className="h-32 flex">
                                 <img className="rounded-2xl w-full object-cover" src={'http://localhost:3000/uploads/'+link} alt = "photo" />
+                                
                             </div>
                         ))}
                         <label className="h-32 cursor-pointer flex items-center gap-1 justify-center border bg-transparent rounded-2xl p-2 text-2xl text-gray-600">

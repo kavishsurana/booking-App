@@ -77,22 +77,13 @@ app.post('/login', async (req,res) => {
 
 app.get('/profile' , (req,res) => {
     const {token} = req.cookies
-    console.log("API.get/profile")
-    console.log(token)
     if(token){
         jwt.verify(token, jwtSecret, async (err, userData) => {
             if(err) throw err;
-            console.log("Decoded Token: ", userData);
-            console.log(userData.id)
             const userDoc = await User.findById(userData.id)
-            console.log("-----------------------------")
-            console.log("verify token" + userDoc)
-            console.log("-----------------------------")
-            console.log(userDoc)
             res.json(userDoc)
         })
     }else{
-        console.log("no token")
         res.json(null)
     }
 })
@@ -100,9 +91,7 @@ app.get('/profile' , (req,res) => {
 
 app.post('/upload-by-link' , async(req,res) => {
     const {link} = req.body
-    console.log(link)
-    const newName = Date.now() + '.jpg'
-    console.log(newName)    
+    const newName = Date.now() + '.jpg'    
     await imageDownloader.image({
         url: link,
         dest: __dirname + '/uploads/' + newName
@@ -130,13 +119,12 @@ app.post('/places' , async (req,res) => {
     const {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
     const {token} = req.cookies
     jwt.verify(token, jwtSecret, async (err, userData) => {
-        console.log(userData.id)
         if(err) throw err;
         const placeDoc = await Place.create({
             owner: userData.id,
             title,
             address,
-            addedPhotos,
+            photos: addedPhotos,
             description,
             perks,
             extraInfo,
@@ -144,8 +132,48 @@ app.post('/places' , async (req,res) => {
             checkOut,
             maxGuests
         })
-        console.log(placeDoc)
         res.json(placeDoc)
+    })
+})
+
+
+app.get('/places', (req,res) => {
+    const {token} = req.cookies
+    jwt.verify(token, jwtSecret,{}, async (err, userData) => {
+        const {id} = userData
+        res.json(await Place.find({owner: id}))
+    })
+})
+
+app.get('/places/:id', async (req,res) => {
+    const {id} = req.params
+    res.json(await Place.findById(id))
+})
+
+app.put('/places', async (req,res) => {
+    const {id, title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests} = req.body
+    const {token} = req.cookies
+    console.log('token', token)
+    jwt.verify(token, jwtSecret, {} , async (err,userData) => {
+        console.log("Inside verify")
+        if(err) throw err;
+        const placeDoc = await Place.findById(id)
+        console.log(userData.id, placeDoc.owner.toString())
+        if(userData.id === placeDoc.owner.toString()){
+            placeDoc.set({
+                title,
+                address,
+                photos: addedPhotos,
+                description,
+                perks,
+                extraInfo,
+                checkIn,
+                checkOut,
+                maxGuests
+            })
+            placeDoc.save()
+            res.json('ok')
+        }
     })
 })
 
