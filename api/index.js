@@ -9,6 +9,7 @@ const multer = require('multer');
 const bcrypt = require('bcryptjs');
 const User = require('./models/User');
 const Place = require('./models/Place');
+const Booking = require('./models/Booking')
 const { default: mongoose } = require('mongoose');
 dotenv.config();
 const app = express();
@@ -38,6 +39,15 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
+function getUserDataFromToken(req){
+    return new Promise((resolve,reject) => {
+        jwt.verify(req.cookies.token, jwtSecret, {} , async (err,userData) => {
+            if(err) throw err
+            resolve(userData)
+        })
+    })
+}
+
 app.get('/test', (req, res) => {
   res.json('Hello World');
 });
@@ -65,7 +75,9 @@ app.post('/login', async (req,res) => {
         if(passOk){
             jwt.sign({email: userDoc.email, id: userDoc._id} , jwtSecret, {} , (err,token) => {
                 if(err) throw err;
+                console.log(userDoc)
                 res.cookie('token', token).json(userDoc)
+
             })
         }else{
             res.status(422).json('password not OK')
@@ -73,6 +85,14 @@ app.post('/login', async (req,res) => {
     }else{
         res.json('not found')
     }
+})
+
+app.post('/logout', (req,res) => {
+    res.clearCookie('token');
+    
+    // Send a response indicating successful logout
+    res.status(200).send('Logged out successfully');
+
 })
 
 app.get('/profile' , (req,res) => {
@@ -182,6 +202,30 @@ app.put('/places', async (req,res) => {
 
 app.get('/places', async (req,res) => {
     res.json( await Place.find())
+})
+
+
+app.post('/bookings', async (req,res) => {
+    const userData = await getUserDataFromToken(req)
+    const {place, checkIn, checkOut,numberOfGuests, name, phone, price} = req.body
+    Booking.create({
+        place, checkIn, checkOut,numberOfGuests, name, phone, price,
+        user: userData.id
+    }).then((doc) => {
+        res.json(doc)
+    }).catch((err) => {
+        throw err;
+    })
+})
+
+
+
+
+app.get('/bookings', async (req,res) => {
+    const userData = await getUserDataFromToken(req)
+    console.log("userData"+userData)
+    console.log("userData.id"+userData.id)
+    res.json(await Booking.find({user: userData.id}).populate('place'))
 })
 
 
