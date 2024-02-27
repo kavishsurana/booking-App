@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 const corsOptions = {
     origin: function (origin, callback) {
       // Check if the request origin is allowed
-      if (origin === 'http://localhost:5173') {
+      if (origin === 'https://booking-app-7epm.vercel.app/') {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
