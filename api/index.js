@@ -23,27 +23,12 @@ app.use(cookieParser());
 app.use('/uploads', express.static(__dirname+'/uploads'));
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://booking-app-7epm.vercel.app/');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    next();
-  });
-
-const corsOptions = {
-    origin: function (origin, callback) {
-      // Check if the request origin is allowed
-      if (origin === 'https://booking-app-7epm.vercel.app/') {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+app.use(cors({
+    origin: 'https://booking-app-7epm.vercel.app',
+    methods: 'GET, POST, PUT, DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
     credentials: true
-  };
-
-  app.use(cors(corsOptions));
+  }));
 
 console.log(process.env.MONGO_URL)
 mongoose.connect(process.env.MONGO_URL, {
@@ -69,6 +54,32 @@ function getUserDataFromToken(req){
 app.get('/test', (req, res) => {
   res.json('Hello World');
 });
+
+
+app.use('/api', async (req, res) => {
+    try {
+      // Extract user data from JWT token
+      const userData = await getUserDataFromToken(req);
+      
+      // Forward the request to the backend server
+      const response = await fetch('https://booking-app-2-gmzj.onrender.com' + req.url, {
+        method: req.method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': req.headers.authorization // Forward authorization header if present
+        },
+        body: JSON.stringify(req.body)
+      });
+  
+      // Send the backend server's response back to the client
+      res.status(response.status).json(await response.json());
+    } catch (error) {
+      console.error('Error:', error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+  
 
 app.post('/register', async (req,res) => {
     const {name, email, password} = req.body
