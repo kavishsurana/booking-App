@@ -24,7 +24,7 @@ app.use('/uploads', express.static(__dirname+'/uploads'));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
     credentials: true,
-    origin: 'https://booking-app-7epm.vercel.app/'
+    origin: 'https://booking-app-7epm.vercel.app'
 }));
 
 console.log(process.env.MONGO_URL)
