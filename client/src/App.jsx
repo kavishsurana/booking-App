@@ -14,7 +14,7 @@ import PlacePage from './pages/PlacePage'
 import BookingsPage from './pages/BookingsPage'
 import BookingPage from './pages/BookingPage'
 
-axios.defaults.baseURL = 'https://booking-app-tvce.onrender.com'
+axios.defaults.baseURL = 'https://booking-app-1-cz1z.onrender.com'
 axios.defaults.withCredentials = true
 
 function App() {
