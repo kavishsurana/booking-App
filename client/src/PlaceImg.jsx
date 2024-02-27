@@ -7,7 +7,7 @@ export default function PlaceImg({place,index=0,className=null}){
     }
     return (
             <div>
-                <img src={'http://localhost:3000/uploads/'+place.photos[index]} alt={place.title} />
+                <img src={'https://booking-app-backend-ildl.onrender.com/uploads/'+place.photos[index]} alt={place.title} />
             </div>
         )
 }
