@@ -6,6 +6,6 @@ export default defineConfig({
   
   plugins: [react()],
   server: {
-    proxy: 'https://booking-app-2-gmzj.onrender.com'
+    proxy: 'https://booking-app-yh1w.onrender.com'
   }
 })
