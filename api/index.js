@@ -22,10 +22,20 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname+'/uploads'));
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
+
+const corsOptions = {
+    origin: function (origin, callback) {
+      // Check if the request origin is allowed
+      if (origin === 'http://localhost:5173') {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true
-    // origin: 'http://localhost:5173'
-}));
+  };
+
+  app.use(cors(corsOptions));
 
 console.log(process.env.MONGO_URL)
 mongoose.connect(process.env.MONGO_URL, {
