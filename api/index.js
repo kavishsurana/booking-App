@@ -24,21 +24,7 @@ app.use('/uploads', express.static(__dirname+'/uploads'));
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use(cors({
-    credentials: true,
-    origin: (origin, callback) => {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-
-        // Allow requests from specific origins
-        const allowedOrigins = ['https://booking-app-7epm.vercel.app'];
-        if (allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    }
-}));
+app.use(cors())
 
 console.log(process.env.MONGO_URL)
 mongoose.connect(process.env.MONGO_URL, {
