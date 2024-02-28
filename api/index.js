@@ -30,10 +30,10 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
   });
-app.use(cors({
-    credentials: true,
-    origin: 'https://booking-app-7epm.vercel.app'
-}));
+// app.use(cors({
+//     credentials: true,
+//     origin: 'https://booking-app-7epm.vercel.app'
+// }));
 
 console.log(process.env.MONGO_URL)
 mongoose.connect(process.env.MONGO_URL, {
