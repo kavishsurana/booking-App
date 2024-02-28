@@ -54,11 +54,21 @@ db.once('open', () => {
 
 function getUserDataFromToken(req){
     return new Promise((resolve,reject) => {
-        jwt.verify(req.cookies.token, jwtSecret, {} , async (err,userData) => {
-            if(err) throw err
-            resolve(userData)
-        })
-    })
+        const token = req.cookies.token;
+        if (!token) {
+            // Handle case where token is not present
+            resolve(null);
+        } else {
+            jwt.verify(token, jwtSecret, {} , async (err,userData) => {
+                if(err) {
+                    // Handle verification error
+                    reject(err);
+                } else {
+                    resolve(userData);
+                }
+            });
+        }
+    });
 }
 
 app.get('/test', (req, res) => {
