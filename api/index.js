@@ -52,28 +52,14 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-function getUserDataFromToken(req) {
+function getUserDataFromReq(req) {
     return new Promise((resolve, reject) => {
-        const token = req.cookies.token;
-        if (!token) {
-            // Handle case where token is not present
-            resolve(null);
-        } else {
-            jwt.verify(token, jwtSecret, {}, (err, userData) => {
-                if (err) {
-                    // Handle verification error
-                    reject(err);
-                } else {
-                    if (!userData) {
-                        resolve(null);
-                    } else {
-                        resolve(userData);
-                    }
-                }
-            });
-        }
+      jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+        if (err) throw err;
+        resolve(userData);
+      });
     });
-}
+  }
 
 
 app.get('/test', (req, res) => {
@@ -234,7 +220,7 @@ app.get('/places', async (req,res) => {
 
 
 app.post('/bookings', async (req,res) => {
-    const userData = await getUserDataFromToken(req)
+    const userData = await getUserDataFromReq(req)
     const {place, checkIn, checkOut,numberOfGuests, name, phone, price} = req.body
     Booking.create({
         place, checkIn, checkOut,numberOfGuests, name, phone, price,
@@ -250,7 +236,7 @@ app.post('/bookings', async (req,res) => {
 
 
 app.get('/bookings', async (req,res) => {
-    const userData = await getUserDataFromToken(req)
+    const userData = await getUserDataFromReq(req)
     console.log("userData"+userData)
     console.log("userData.id"+userData.id)
     res.json(await Booking.find({user: userData.id}).populate('place'))
