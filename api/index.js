@@ -26,7 +26,18 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
     credentials: true,
-    origin: 'https://booking-app-7epm.vercel.app'
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        // Allow requests from specific origins
+        const allowedOrigins = ['https://booking-app-7epm.vercel.app'];
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
 }));
 
 console.log(process.env.MONGO_URL)
