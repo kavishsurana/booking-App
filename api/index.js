@@ -64,7 +64,11 @@ function getUserDataFromToken(req) {
                     // Handle verification error
                     reject(err);
                 } else {
-                    resolve(userData);
+                    if (!userData) {
+                        resolve(null);
+                    } else {
+                        resolve(userData);
+                    }
                 }
             });
         }
