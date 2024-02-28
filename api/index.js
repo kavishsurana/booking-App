@@ -52,15 +52,15 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-function getUserDataFromToken(req){
-    return new Promise((resolve,reject) => {
+function getUserDataFromToken(req) {
+    return new Promise((resolve, reject) => {
         const token = req.cookies.token;
         if (!token) {
             // Handle case where token is not present
             resolve(null);
         } else {
-            jwt.verify(token, jwtSecret, {} , async (err,userData) => {
-                if(err) {
+            jwt.verify(token, jwtSecret, {}, (err, userData) => {
+                if (err) {
                     // Handle verification error
                     reject(err);
                 } else {
@@ -70,6 +70,7 @@ function getUserDataFromToken(req){
         }
     });
 }
+
 
 app.get('/test', (req, res) => {
   res.json('Hello World');
