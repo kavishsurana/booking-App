@@ -23,17 +23,11 @@ app.use(cookieParser());
 app.use('/uploads', express.static(__dirname+'/uploads'));
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://booking-app-7epm.vercel.app');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    next();
-  });
-// app.use(cors({
-//     credentials: true,
-//     origin: 'https://booking-app-7epm.vercel.app'
-// }));
+
+app.use(cors({
+    credentials: true,
+    origin: 'https://booking-app-7epm.vercel.app'
+}));
 
 console.log(process.env.MONGO_URL)
 mongoose.connect(process.env.MONGO_URL, {
