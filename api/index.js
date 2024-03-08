@@ -24,7 +24,19 @@ app.use('/uploads', express.static(__dirname+'/uploads'));
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use(cors())
+const allowedOrigins = ['http://localhost:5173', 'https://booking-app-7epm.vercel.app'];
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true // Allow cookies to be sent
+}));
+
+
 
 console.log(process.env.MONGO_URL)
 mongoose.connect(process.env.MONGO_URL, {
