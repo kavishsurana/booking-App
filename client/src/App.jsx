@@ -15,7 +15,7 @@ import BookingsPage from './pages/BookingsPage'
 import BookingPage from './pages/BookingPage'
 
 axios.defaults.baseURL = 'https://booking-app-yh1w.onrender.com'
-//axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true
 
 // https://booking-app-yh1w.onrender.com
 
