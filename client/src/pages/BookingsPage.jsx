@@ -10,6 +10,7 @@ export default function BookingsPage(){
     console.log(bookings)
     useEffect(() => {
         axios.get('/bookings').then(response => {
+            console.log(response.data)
             setBookings(response.data)
         })
     }, [])
