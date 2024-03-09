@@ -7,7 +7,7 @@ export default function PhotosUploader({addedPhotos, setAddedPhotos}){
 
     async function addPhotoByLink(e){
         e.preventDefault();
-        const {data:filename} = await axios.post('/upload-by-link', {link: photoLink})
+        const {data:filename} = await axios.post('upload-by-link', {link: photoLink})
         console.log("before setAddedPhotos")
         setAddedPhotos(prev => {
            return [...prev, filename]

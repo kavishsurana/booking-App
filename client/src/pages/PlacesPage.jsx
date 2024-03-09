@@ -14,6 +14,9 @@ export default function PlacesPage(){
     useEffect(() => {
         axios.get('/user-places').then(({data}) => {
             setPlaces(data);
+        }).catch(err => {
+            console.log("error is:")
+            console.log(err)
         })
     }, [])
 
