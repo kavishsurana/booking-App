@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'https://booking-app-1-aqqh.onrender.com', 'https://booking-app-7epm.vercel.app'],
   }));
   
 
@@ -166,6 +166,7 @@ app.post('/places' , async (req,res) => {
 
 app.get('/user-places', (req,res) => {
     const {token} = req.cookies
+    console.log('token', token)
     jwt.verify(token, jwtSecret,{}, async (err, userData) => {
         const {id} = userData
         res.json(await Place.find({owner: id}))
