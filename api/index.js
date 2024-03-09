@@ -37,7 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 // }));
 
 const corsOptions = {
-    origin: '*',
+    origin: true,
     credentials: true,
   };
   
