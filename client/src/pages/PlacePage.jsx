@@ -34,9 +34,9 @@ export default function PlacePage() {
 
                 </div>
                 
-                {place?.photos?.length > 0 && place.photos.map(photo => (
-                    <div>
-                        <img src={'http://localhost:3000/uploads/'+photo} alt={place.title} />
+                {place?.photos?.length > 0 && place.photos.map((photo,index) => (
+                    <div key={index}>
+                        <img src={'https://booking-app-1-aqqh.onrender.com/uploads/'+photo} alt={place.title} />
                     </div>
                 ))}
                 </div>
@@ -49,7 +49,7 @@ export default function PlacePage() {
     return (
         <div className='mt-4 bg-gray-100 -mx-8 px-8 py-8'>
             <h1>{place.title}</h1>
-            <a className='flex gap-1 my-3 block font-semibold underline' target='_blank' href={'https://maps.google.com/?q='+place.address}>
+            <a className='flex gap-1 my-3 block font-semibold underline' href={'https://maps.google.com/?q='+place.address}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
@@ -60,17 +60,17 @@ export default function PlacePage() {
                 <div>
                     {place.photos?.[0]  && (
                     <div className="w-full h-full">
-                    <img onClick={() => setShowAllPhotos(true)} className='object-cover cursor-pointer aspect-square w-full h-full' src={'http://localhost:3000/uploads/'+place.photos[0]} alt={place.title} />
+                    <img onClick={() => setShowAllPhotos(true)} className='object-cover cursor-pointer aspect-square w-full h-full' src={'https://booking-app-1-aqqh.onrender.com/uploads/'+place.photos[0]} alt={place.title} />
                 </div>
                     )}
             </div>
             <div className='grid'>
                 {place.photos?.[1]  && (
-                    <img onClick={() => setShowAllPhotos(true)} className='object-cover cursor-pointer aspect-square' src={'http://localhost:3000/uploads/'+place.photos[1]} alt={place.title} />
+                    <img onClick={() => setShowAllPhotos(true)} className='object-cover cursor-pointer aspect-square' src={'https://booking-app-1-aqqh.onrender.com/uploads/'+place.photos[1]} alt={place.title} />
                 )} 
                 <div className='overflow-hidden'>
                     {place.photos?.[2]  && (
-                        <img onClick={() => setShowAllPhotos(true)} className='object-cover cursor-pointer aspect-square' src={'http://localhost:3000/uploads/'+place.photos[2]} alt={place.title} />
+                        <img onClick={() => setShowAllPhotos(true)} className='object-cover cursor-pointer aspect-square' src={'https://booking-app-1-aqqh.onrender.com/uploads/'+place.photos[2]} alt={place.title} />
                     )}
                 </div>
             </div>
