@@ -18,16 +18,15 @@ const app = express();
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = 'yourSecretKey'
 
+
+app.use(cors({
+    origin: '*',
+}));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname+'/uploads'));
 app.use(express.urlencoded({ extended: true }));
 
-
-app.use(cors({
-    credentials: true,
-    origin: ['http://localhost:5173', 'https://booking-app-1-aqqh.onrender.com', 'https://booking-app-7epm.vercel.app'],
-  }));
   
 
 
