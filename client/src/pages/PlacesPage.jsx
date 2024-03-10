@@ -12,7 +12,13 @@ export default function PlacesPage(){
     const [places, setPlaces] = useState([])
 
     useEffect(() => {
-        axios.get('/user-places').then(({data}) => {
+        axios.get('/user-places',{
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(({data}) => {
+            console.log('data', data)
             setPlaces(data);
         }).catch(err => {
             console.log("error is:")

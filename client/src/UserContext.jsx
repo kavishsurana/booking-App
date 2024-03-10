@@ -12,7 +12,9 @@ export function UserContextProvider({children}){
 
     useEffect(() => {
         if(!user){
-         axios.get('/profile').then(({data}) => {
+         axios.get('/profile', {
+            withCredentials: true
+        }).then(({data}) => {
             console.log("Inside UserContext.jsx" + data)
             setUser(data)
             setReady(true)
