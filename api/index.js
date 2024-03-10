@@ -20,7 +20,7 @@ const jwtSecret = 'yourSecretKey'
 
 
 app.use(cors({
-    origin: '*',
+    origin:['*', 'http://localhost:5173', 'https://booking-app-7epm.vercel.app/', 'https://booking-app-7epm.vercel.app/*'],
     credentials: true,
 }));
 app.use(express.json());
