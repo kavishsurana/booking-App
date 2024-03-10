@@ -21,6 +21,7 @@ const jwtSecret = 'yourSecretKey'
 
 app.use(cors({
     origin: '*',
+    credentials: true,
 }));
 app.use(express.json());
 app.use(cookieParser());
