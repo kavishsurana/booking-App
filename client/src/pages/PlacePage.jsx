@@ -10,7 +10,7 @@ export default function PlacePage() {
 
     useEffect(() => {
         if(!id) return
-        axios.get('places/'+id).then(response => {
+        axios.get('https://booking-app-1-aqqh.onrender.com/places/'+id, { withCredentials: true }).then(response => {
             setPlace(response.data)
         })
     }, [id])

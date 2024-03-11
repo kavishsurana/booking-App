@@ -23,7 +23,7 @@ export default function PlacesFormPage(){
 
     useEffect(() => {
         if(!id) return;
-        axios.get('/places/'+id).then(response => {
+        axios.get('https://booking-app-1-aqqh.onrender.com/places/'+id, { withCredentials: true }).then(response => {
             const {data} = response
             setTitle(data.title)
             setAddress(data.address)
@@ -68,13 +68,13 @@ export default function PlacesFormPage(){
 
         if(id){
             //update
-            await axios.put('/places', {
+            await axios.put('https://booking-app-1-aqqh.onrender.com/places', {
                 id,
                 ...placeData
             })
             setRedirect(true)
         }else{
-            await axios.post('/places', placeData)
+            await axios.post('https://booking-app-1-aqqh.onrender.com/places', placeData)
             setRedirect(true)
         }
     }

@@ -12,7 +12,7 @@ export function UserContextProvider({children}){
 
     useEffect(() => {
         if(!user){
-         axios.get('/profile', {
+         axios.get('https://booking-app-1-aqqh.onrender.com/profile', {
             withCredentials: true
         }).then(({data}) => {
             console.log("Inside UserContext.jsx" + data)

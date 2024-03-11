@@ -7,7 +7,7 @@ export default function PhotosUploader({addedPhotos, setAddedPhotos}){
 
     async function addPhotoByLink(e){
         e.preventDefault();
-        const {data:filename} = await axios.post('upload-by-link', {link: photoLink})
+        const {data:filename} = await axios.post('https://booking-app-1-aqqh.onrender.com/upload-by-link', {link: photoLink})
         console.log("before setAddedPhotos")
         setAddedPhotos(prev => {
            return [...prev, filename]
@@ -23,7 +23,7 @@ export default function PhotosUploader({addedPhotos, setAddedPhotos}){
         for(let i = 0; i<files.length; i++){
             data.append('photos', files[i])
         }
-        axios.post('/upload', data, {
+        axios.post('https://booking-app-1-aqqh.onrender.com/upload', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

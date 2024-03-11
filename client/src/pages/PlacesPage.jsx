@@ -12,10 +12,10 @@ export default function PlacesPage(){
     const [places, setPlaces] = useState([])
 
     useEffect(() => {
-        axios.get('/user-places',{
-            withCredentials: true,
+        axios.get('https://booking-app-1-aqqh.onrender.com/user-places', {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'withCredentials': true
             }
         }).then(({data}) => {
             console.log('data', data)

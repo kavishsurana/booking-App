@@ -13,7 +13,7 @@ export default function LoginPage(){
     async function handleLoginSubmit(e){
         e.preventDefault()
         try{
-            const {data} = await axios.post('/login', {email,password})
+            const {data} = await axios.post('https://booking-app-1-aqqh.onrender.com/login', {email,password})
             console.log(data)
             setUser(data)
             alert('Login successful')

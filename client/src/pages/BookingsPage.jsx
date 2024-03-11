@@ -9,7 +9,7 @@ export default function BookingsPage(){
     const [bookings, setBookings] = useState([])
     console.log(bookings)
     useEffect(() => {
-        axios.get('/bookings').then(response => {
+        axios.get('https://booking-app-1-aqqh.onrender.com/bookings', {withCredentials: true}).then(response => {
             console.log(response.data)
             setBookings(response.data)
         })

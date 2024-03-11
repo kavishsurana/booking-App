@@ -19,13 +19,13 @@ export default function AccountPage(){
 
 
     async function logout() {
-        axios.post('/logout')
+        axios.post('https://booking-app-1-aqqh.onrender.com/logout')
         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 
         localStorage.clear();
         setRedirect('/');
         setUser(null);
-      }
+    }
 
       
 

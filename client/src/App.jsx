@@ -5,7 +5,6 @@ import IndexPage from './pages/IndexPage'
 import LoginPage from './pages/LoginPage'
 import Layout from './Layout'
 import RegisterPage from './pages/RegisterPage'
-import axios from 'axios'
 import ProfilePage from './pages/ProfilePage'
 import { UserContextProvider } from './UserContext'
 import PlacesPage from './pages/PlacesPage'
@@ -14,8 +13,6 @@ import PlacePage from './pages/PlacePage'
 import BookingsPage from './pages/BookingsPage'
 import BookingPage from './pages/BookingPage'
 
-axios.defaults.baseURL = 'https://booking-app-1-aqqh.onrender.com'
-axios.defaults.withCredentials = true
 
 // http://localhost:3000
 // https://booking-app-yh1w.onrender.com

@@ -9,7 +9,7 @@ export default function RegisterPage(){
     async function registerUser(e){
         e.preventDefault()
         try {
-            await axios.post('/register', {
+            await axios.post('https://booking-app-1-aqqh.onrender.com/register', {
                 name,
                 email,
                 password

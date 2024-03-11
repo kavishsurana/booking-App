@@ -9,7 +9,7 @@ export default function IndexPage() {
   const [places, setPlaces] = useState([])
 
   useEffect(() => {
-    axios.get('/places').then(response => { 
+    axios.get('https://booking-app-1-aqqh.onrender.com/places', { withCredentials: true }).then(response => { 
       setPlaces([...response.data,...response.data,...response.data,...response.data,])
     })
   }, [])
