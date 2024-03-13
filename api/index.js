@@ -55,14 +55,6 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-function getUserDataFromReq(req) {
-    return new Promise((resolve, reject) => {
-      jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
-        if (err) throw err;
-        resolve(userData);
-      });
-    });
-  }
 
 
 app.get('/test', (req, res) => {
@@ -224,15 +216,15 @@ app.get('/places', async (req,res) => {
 
 
 app.post('/bookings', async (req,res) => {
-    const userData = await getUserDataFromReq(req)
+    const {token} = req.cookies
     const {place, checkIn, checkOut,numberOfGuests, name, phone, price} = req.body
-    Booking.create({
-        place, checkIn, checkOut,numberOfGuests, name, phone, price,
-        user: userData.id
-    }).then((doc) => {
-        res.json(doc)
-    }).catch((err) => {
-        throw err;
+    jwt.verify(token, jwtSecret, async(err, userData) => {
+        if(err) throw err;
+        const bookingDoc = await Booking.create({
+            place, checkIn, checkOut,numberOfGuests, name, phone, price,
+            user: userData.id
+        })
+        res.json(bookingDoc)
     })
 })
 
@@ -240,10 +232,11 @@ app.post('/bookings', async (req,res) => {
 
 
 app.get('/bookings', async (req,res) => {
-    const userData = await getUserDataFromReq(req)
-    console.log("userData"+userData)
-    console.log("userData.id"+userData.id)
-    res.json(await Booking.find({user: userData.id}).populate('place'))
+    const {token} = req.cookies
+    jwt.verify(token, jwtSecret, async(err, userData) => {
+        if(err) throw err;
+        res.json(await Booking.find({user: userData.id}).populate('place'))
+    })
 })
 
 
