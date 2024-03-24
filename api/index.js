@@ -14,19 +14,26 @@ const { default: mongoose } = require('mongoose');
 dotenv.config();
 const app = express();
 
-app.use(function(req, res, next) {
-    // res.header("Access-Control-Allow-Origin", "*");
-    const allowedOrigins = ['http://localhost:5173', 'https://booking-app-7epm.vercel.app/', 'https://booking-app-7epm.vercel.app/*'];
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-         res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE");
-    next();
-  });
+app.use(express.json());
+app.use(cookieParser());
 
+// app.use(function(req, res, next) {
+//     // res.header("Access-Control-Allow-Origin", "*");
+//     const allowedOrigins = ['http://localhost:5173', 'https://booking-app-7epm.vercel.app/', 'https://booking-app-7epm.vercel.app/*'];
+//     const origin = req.headers.origin;
+//     if (allowedOrigins.includes(origin)) {
+//          res.setHeader('Access-Control-Allow-Origin', origin);
+//     }
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+//     res.header("Access-Control-Allow-Credentials", true);
+//     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE");
+//     next();
+//   });
+
+app.use(cors({
+    credentials: true,
+    origin: "http://localhost:5173"
+}))
 
 
 const bcryptSalt = bcrypt.genSaltSync(10);
@@ -34,8 +41,7 @@ const jwtSecret = 'yourSecretKey'
 
 
 
-app.use(express.json());
-app.use(cookieParser());
+
 app.use('/uploads', express.static(__dirname+'/uploads'));
 app.use(express.urlencoded({ extended: true }));
 
@@ -85,7 +91,7 @@ app.post('/login', async (req,res) => {
             jwt.sign({email: userDoc.email, id: userDoc._id} , jwtSecret, {} , (err,token) => {
                 if(err) throw err;
                 console.log(userDoc)
-                res.cookie('token', token).json(userDoc)
+                res.cookie("token", token).json(userDoc)
 
             })
         }else{
