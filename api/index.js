@@ -178,6 +178,11 @@ app.get('/user-places', (req,res) => {
     console.log('token', token)
     jwt.verify(token, jwtSecret,{}, async (err, userData) => {
         const {id} = userData
+        if(!id){
+            res.json([])
+            return;
+        }
+        console.log('id', id)
         res.json(await Place.find({owner: id}))
     })
 })
