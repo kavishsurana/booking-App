@@ -32,7 +32,7 @@ app.use(cookieParser());
 
 app.use(cors({
     credentials: true,
-    origin: "https://booking-app-7epm.vercel.app/",
+    origin: "https://booking-app-7epm.vercel.app",
     sameSite: "none",
     methods: "GET, POST, PUT, DELETE, UPDATE",
     secure: true,
