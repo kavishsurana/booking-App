@@ -32,7 +32,10 @@ app.use(cookieParser());
 
 app.use(cors({
     credentials: true,
-    origin: "http://localhost:5173"
+    origin: "https://booking-app-7epm.vercel.app/",
+    sameSite: "none",
+    methods: "GET, POST, PUT, DELETE, UPDATE",
+    secure: true,
 }))
 
 
@@ -177,6 +180,7 @@ app.get('/user-places', (req,res) => {
     const {token} = req.cookies
     console.log('token', token)
     jwt.verify(token, jwtSecret,{}, async (err, userData) => {
+        console.log("userData", userData)
         const {id} = userData
         if(!id){
             res.json([])
